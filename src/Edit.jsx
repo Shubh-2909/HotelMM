@@ -173,6 +173,12 @@ const Edit = () => {
               onChange={handleEmailChange}
             />
           </div>
+          <button
+              onClick={handleEditClick}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded"
+            >
+              Check
+            </button>
 
           <div className="flex gap-3 w-full items-center">
             <label style={{ width: "150px" }}>New Email</label>

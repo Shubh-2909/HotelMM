@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div className="flex gap-5 justify-between bg-gray-200 items-center px-5 shadow-md">
       <div>
-        <img />
+        <h1 className="text-3xl font-bold font-serif">Hotel Management</h1>
       </div>
 
       <div className="flex gap-4">
