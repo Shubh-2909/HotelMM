@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Button, Typography, TextField } from "@mui/material";
+import { useState } from "react";
 import axios from "axios";
+
 const Deletedd = () => {
   const [useremail, setUseremail] = useState("");
   const [requestStatus, setRequestStatus] = useState(null);
+
   const handleUseremail = (event) => {
     setUseremail(event.target.value);
   };
+
   const deleted = () => {
     axios
       .patch(
@@ -21,28 +23,34 @@ const Deletedd = () => {
         setRequestStatus("error");
       });
   };
+
   return (
-    <>
-      <Typography>Delete</Typography>
-      <TextField
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4 flex gap-5">Delete</h1>
+      <input
+        type="email"
         required
-        fullWidth
-        label="Email"
-        margin="normal"
-        variant="outlined"
+        className="border border-gray-300 p-2 rounded-md mb-4 w-80"
+        placeholder="Email"
         value={useremail}
         onChange={handleUseremail}
-        sx={{ width: "30vw" }}
       />
-      <Button onClick={deleted}>Delete</Button>
+      <button
+        onClick={deleted}
+        className="bg-blue-500 text-white px-4 py-2 mx-4 rounded-md hover:bg-blue-600"
+      >
+        Delete
+      </button>
       {requestStatus === "success" && (
-        <Typography style={{ color: "green" }}>Details Removed Succesfully</Typography>
+        <p className="text-green-600 mt-2">Details Removed Successfully</p>
       )}
 
       {requestStatus === "error" && (
-        <Typography style={{ color: "red" }}>Error making request. Please try again.</Typography>
+        <p className="text-red-600 mt-2">
+          Error making request. Please try again.
+        </p>
       )}
-    </>
+    </div>
   );
 };
 

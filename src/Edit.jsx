@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 
 const Edit = () => {
@@ -84,20 +83,22 @@ const Edit = () => {
   const finalprice = () => {
     const entryDateTime = new Date(`${startDate}T${startTime}`);
     const exitDateTime = new Date(`${endDate}T${endTime}`);
-    
+
     // Calculate total minutes spent
-    const totalMinutesSpent = Math.round((exitDateTime - entryDateTime) / (1000 * 60));
+    const totalMinutesSpent = Math.round(
+      (exitDateTime - entryDateTime) / (1000 * 60)
+    );
 
     // Determine room type price
     let roomTypePrice;
     switch (roomType) {
-      case 'A':
+      case "A":
         roomTypePrice = 100;
         break;
-      case 'B':
+      case "B":
         roomTypePrice = 80;
         break;
-      case 'C':
+      case "C":
         roomTypePrice = 50;
         break;
       default:
@@ -160,120 +161,127 @@ const Edit = () => {
 
   return (
     <>
-      <Stack direction={"column"}>
-        <Typography>Write Mail_id to search for user</Typography>
-        <TextField
-          required
-          fullWidth
-          label="Email"
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-          value={Useremail}
-          onChange={handleEmailChange}
-        />
-        <Button onClick={handleCheckClick}>Check</Button>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col items-center justify-center gap-5">
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>Email</label>
+            <input
+              required
+              type="email"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={Useremail}
+              onChange={handleEmailChange}
+            />
+          </div>
 
-        <TextField
-          required
-          fullWidth
-          label="New Email"
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-          value={Usernewemail}
-          onChange={handlenewEmailChange}
-        />
-        <Typography>Start Time</Typography>
-        <TextField
-          type="time"
-          id="appt-time-entry"
-          name="appt-time-entry"
-          value={startTime}
-          onChange={handleTimeentry}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-        />
-        <Typography>End Time</Typography>
-        <TextField
-          type="time"
-          id="appt-time-exit"
-          name="appt-time-exit"
-          value={endTime}
-          onChange={handleTimeexit}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-        />
-        <Typography>Start Date</Typography>
-        <TextField
-          type="date"
-          id="start-date"
-          name="start-date"
-          value={startDate}
-          onChange={handleStartDateChange}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-        />
-        <Typography>End Date</Typography>
-        <TextField
-          type="date"
-          id="end-date"
-          name="end-date"
-          value={endDate}
-          onChange={handleEndDateChange}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-        />
-        <TextField
-          required
-          fullWidth
-          label="Room Number"
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-          value={roomNumber}
-          onChange={handleRoom}
-        />
-        <TextField
-          required
-          fullWidth
-          label="Room Type"
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-          value={roomType}
-          onChange={handleRoomType}
-        />
-        <TextField
-          required
-          fullWidth
-          label="Total Price"
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
-          value={totalPrice}
-          onChange={handleTotalPrice}
-        />
-        <Button onClick={finalprice}>Final_price</Button>
-        <Typography>
-          <Button onClick={handleEditClick}>Edit</Button>
-        </Typography>
-        {requestStatus === "success" && (
-          <Typography style={{ color: "green" }}>
-            Details Edited Successfully
-          </Typography>
-        )}
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>New Email</label>
+            <input
+              required
+              type="email"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={Usernewemail}
+              onChange={handlenewEmailChange}
+            />
+          </div>
 
-        {requestStatus === "error" && (
-          <Typography style={{ color: "red" }}>
-            Error making request. Please try again.
-          </Typography>
-        )}
-      </Stack>
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>Start Time</label>
+            <input
+              type="time"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={startTime}
+              onChange={handleTimeentry}
+            />
+          </div>
+
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>End Time</label>
+            <input
+              type="time"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={endTime}
+              onChange={handleTimeexit}
+            />
+          </div>
+
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>Start Date</label>
+            <input
+              type="date"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={startDate}
+              onChange={handleStartDateChange}
+            />
+          </div>
+
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>End Date</label>
+            <input
+              type="date"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={endDate}
+              onChange={handleEndDateChange}
+            />
+          </div>
+
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>Room Number</label>
+            <input
+              type="text"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={roomNumber}
+              onChange={handleRoom}
+            />
+          </div>
+
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>Room Type</label>
+            <input
+              type="text"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={roomType}
+              onChange={handleRoomType}
+            />
+          </div>
+
+          <div className="flex gap-3 w-full items-center">
+            <label style={{ width: "150px" }}>Total Price</label>
+            <input
+              type="text"
+              className="border border-gray-300 rounded-md px-4 py-2 w-1/2 focus:outline-none focus:border-blue-500"
+              value={totalPrice}
+              onChange={handleTotalPrice}
+            />
+          </div>
+
+          <div className="flex gap-5 items-center justify-start w-full ml-80">
+            <button
+              onClick={finalprice}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Final Price
+            </button>
+
+            <button
+              onClick={handleEditClick}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Edit
+            </button>
+          </div>
+
+          {requestStatus === "success" && (
+            <p className="text-green-500">Details Edited Successfully</p>
+          )}
+
+          {requestStatus === "error" && (
+            <p className="text-red-500">
+              Error making request. Please try again.
+            </p>
+          )}
+        </div>
+      </div>
     </>
   );
 };

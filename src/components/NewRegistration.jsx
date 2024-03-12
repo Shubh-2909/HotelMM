@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
-import datetime from 'datetime';
 import axios from "axios";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
 
 const NewRegistration = () => {
-  const [Useremail,setuseremail]=useState("");
+  const [Useremail, setUseremail] = useState("");
   const [selectedEntryTime, setSelectedEntryTime] = useState("");
   const [selectedExitTime, setSelectedExitTime] = useState("");
   const [diffinMin, setDiffinMin] = useState(0);
@@ -25,12 +14,12 @@ const NewRegistration = () => {
   const [price, setPrice] = useState(0);
   const [requestStatus, setRequestStatus] = useState(null);
 
-  // Event handlers
   const handleTimeentry = (event) => {
     setSelectedEntryTime(event.target.value);
   };
+
   const handleUseremail = (event) => {
-    setuseremail(event.target.value);
+    setUseremail(event.target.value);
   };
 
   const handleTimeexit = (event) => {
@@ -46,10 +35,8 @@ const NewRegistration = () => {
     setExitDate(event.target.value);
   };
 
-  // Effect hook to recalculate price
   useEffect(() => {
     const calculatePrice = () => {
-      // Check if all necessary values are available
       if (
         selectedEntryTime &&
         selectedExitTime &&
@@ -82,13 +69,14 @@ const NewRegistration = () => {
 
     calculatePrice();
   }, [a, b, c, selectedEntryTime, selectedExitTime, entryDate, exitDate]);
-  const setzerostate=()=>{
-  setA('');
-  setB('');
-  setC('');
-  }
+
+  const setzerostate = () => {
+    setA("");
+    setB("");
+    setC("");
+  };
+
   const submitdata = () => {
-    // Create data object
     const data = {};
     if (Useremail) data.userEmail = Useremail;
     const startTime = new Date(`${entryDate}T${selectedEntryTime}:00Z`);
@@ -108,21 +96,19 @@ const NewRegistration = () => {
       data.roomNumber = c;
       data.roomType = "C";
     }
-  
-    // Preliminary check for room availability
+
     const preliminaryCheckData = {
       startTime: data.startTime,
       endTime: data.endTime,
       roomNumber: data.roomNumber,
     };
-  
+
     axios
       .post("https://alcor.onrender.com/api/checkBooking", preliminaryCheckData)
       .then((preliminaryResponse) => {
         const isRoomAvailable = preliminaryResponse.data.available;
-  
+
         if (!isRoomAvailable) {
-          // Room is available, proceed with the original booking request
           axios
             .post("https://alcor.onrender.com/api/booking", data)
             .then((response) => {
@@ -134,8 +120,9 @@ const NewRegistration = () => {
               setRequestStatus("error");
             });
         } else {
-          // Room is not available, show alert
-          alert("Room is already booked. Please choose another room or time slot.");
+          alert(
+            "Room is already booked. Please choose another room or time slot."
+          );
         }
       })
       .catch((error) => {
@@ -143,152 +130,109 @@ const NewRegistration = () => {
         setRequestStatus("error");
       });
   };
-  
+
   return (
-    <>
+    <div className="container mx-auto px-4 py-8">
       <form style={{ width: "50%", marginTop: "1rem" }}>
-        <Typography>Room Allotment</Typography>
-        <TextField
-          required
-          fullWidth
-          label="Email"
-          margin="normal"
-          variant="outlined"
+        <h1 className="text-xl font-bold mb-4">Room Allotment</h1>
+        <label>Email</label>
+        <input
+          type="email"
+          className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
           value={Useremail}
           onChange={handleUseremail}
         />
-        <Typography>Entry Date</Typography>
-        <TextField
+        <label>Entry Date</label>
+        <input
           type="date"
-          id="appt-date-entry"
-          name="appt-date-entry"
+          className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
           value={entryDate}
           onChange={handleDateEntry}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
         />
-        <Typography>Entry Time</Typography>
-        <TextField
+        <label>Entry Time</label>
+        <input
           type="time"
-          id="appt-time-entry"
-          name="appt-time-entry"
+          className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
           value={selectedEntryTime}
           onChange={handleTimeentry}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
         />
-        <Typography>Exit Date</Typography>
-        <TextField
+        <label>Exit Date</label>
+        <input
           type="date"
-          id="exit-date-entry"
-          name="exit-date-entry"
+          className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
           value={exitDate}
           onChange={handleDateExit}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
         />
-        <Typography>Exit Time</Typography>
-        <TextField
+        <label>Exit Time</label>
+        <input
           type="time"
-          id="appt-time-exit"
-          name="appt-time-exit"
+          className="border border-gray-300 rounded-md px-4 py-2 mb-4 w-full"
           value={selectedExitTime}
           onChange={handleTimeexit}
-          margin="normal"
-          variant="outlined"
-          sx={{ width: "30vw" }}
         />
       </form>
-      <Stack direction={"row"} justifyContent={"space-evenly"}>
-        <FormControl fullWidth>
-          <InputLabel id="RoomA">A</InputLabel>
-          <Select
-            labelId="RoomA"
-            id="RoomA"
+      <div className="flex gap-8">
+        <div className="flex gap-2 items-center">
+          <label>A</label>
+          <select
             value={a}
-            label="Age"
             onChange={(event) => setA(event.target.value)}
-            sx={{ width: "10vw" }}
+            className="border border-gray-300 rounded-md px-4 py-2 w-28 cursor-pointer"
           >
-            <MenuItem id="1" value={'a1'}>
-              A1
-            </MenuItem>
-            <MenuItem id="2" value={'a2'}>
-              A2
-            </MenuItem>
-            <MenuItem id="a"onClick={setzerostate}>
-              Reset
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="RoomB">B</InputLabel>
-          <Select
-            labelId="RoomB"
-            id="RoomB"
+            <option value="">Choose</option>
+            <option value="a1">A1</option>
+            <option value="a2">A2</option>
+          </select>
+        </div>
+        <div className="flex gap-2 items-center">
+          <label>B</label>
+          <select
             value={b}
-            label="Age"
             onChange={(event) => setB(event.target.value)}
-            sx={{ width: "10vw" }}
+            className="border border-gray-300 rounded-md px-4 py-2 w-28 cursor-pointer"
           >
-            <MenuItem id="3" value={'b1'}>
-              B1
-            </MenuItem>
-            <MenuItem id="4" value={'b2'}>
-              B2
-            </MenuItem>
-            <MenuItem id="5" value={'b3'}>
-              B3
-            </MenuItem>
-            <MenuItem id="b" onClick={setzerostate}>
-              Reset
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <InputLabel id="RoomC">C</InputLabel>
-          <Select
-            labelId="RoomC"
-            id="RoomC"
+            <option value="">Choose</option>
+            <option value="b1">B1</option>
+            <option value="b2">B2</option>
+            <option value="b3">B3</option>
+          </select>
+        </div>
+        <div className="flex gap-2 items-center">
+          <label>C</label>
+          <select
             value={c}
-            label="Age"
             onChange={(event) => setC(event.target.value)}
-            sx={{ width: "10vw" }}
+            className="border border-gray-300 rounded-md px-4 py-2  w-28 cursor-pointer"
           >
-            <MenuItem id="6" value={'c1'}>
-              C1
-            </MenuItem>
-            <MenuItem id="7" value={'c2'}>
-              C2
-            </MenuItem>
-            <MenuItem id="8" value={'c3'}>
-              C3
-            </MenuItem>
-            <MenuItem id="9" value={'c4'}>
-              C4
-            </MenuItem>
-            <MenuItem id="10" value={'c5'}>
-              C5
-            </MenuItem>
-            <MenuItem id="c"onClick={setzerostate} >
-              Reset
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </Stack>
-      <Typography>{`Total Price: ${price}`}</Typography>
-      <Button type="submit" variant="contained" onClick={submitdata}>Proceed</Button>
-      {requestStatus === "success" && (
-        <Typography style={{ color: "green" }}>Room Booked Succesfully</Typography>
-      )}
+            <option value="">Choose</option>
+            <option value="c1">C1</option>
+            <option value="c2">C2</option>
+            <option value="c3">C3</option>
+            <option value="c4">C4</option>
+            <option value="c5">C5</option>
+          </select>
+        </div>
+      </div>
+      <div className="my-5 flex flex-col gap-3">
+        <p className="font-bold ">Total Price: {price}</p>
+        <button
+          type="submit"
+          onClick={submitdata}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-40"
+        >
+          Proceed
+        </button>
+        {requestStatus === "success" && (
+          <p className="text-green-500">Room Booked Successfully</p>
+        )}
 
-      {requestStatus === "error" && (
-        <Typography style={{ color: "red" }}>Error making request. Please try again.</Typography>
-      )}
-    </>
+        {requestStatus === "error" && (
+          <p className="text-red-500">
+            Error making request. Please try again.
+          </p>
+        )}
+      </div>
+    </div>
   );
 };
 
